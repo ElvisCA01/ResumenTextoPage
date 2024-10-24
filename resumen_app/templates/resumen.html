@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resumen Automático</title>
+</head>
+<body>
+    <h1>Generador de Resúmenes Automáticos</h1>
+    
+    <!-- Formulario -->
+    {% include 'index.html' %}
+
+    <!-- Resultado del Resumen -->
+    {% if resumen %}
+        <h2>Resumen Generado:</h2>
+        <p>{{ resumen }}</p>
+    {% endif %}
+</body>
+</html>

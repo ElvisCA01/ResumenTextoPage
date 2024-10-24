@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Resúmenes</title>
+</head>
+<body>
+    <h1>Generador de Resúmenes Automáticos</h1>
+    <form method="POST" enctype="multipart/form-data" action="{% url 'resumir' %}">
+        {% csrf_token %}
+        <label for="input_texto">Texto:</label>
+        <textarea id="input_texto" name="input_texto"></textarea>
+    
+        <label for="input_archivo">Subir Archivo:</label>
+        <input type="file" id="input_archivo" name="input_archivo">
+    
+        <label for="input_url">URL:</label>
+        <input type="text" id="input_url" name="input_url">
+    
+        <select id="input_metodo" name="input_metodo">
+            <option value="nltk">Resumen con NLTK</option>
+        </select>
+    
+        <button type="submit">Resumir</button>
+    </form>
+    
+</body>
+</html>

@@ -36,7 +36,7 @@
         <!-- Contenido de cada pestaña -->
         <div id="texto" class="tab-content active">
             <form method="POST" enctype="multipart/form-data" action="{% url 'resumir' %}">
-                {% csrf_token %}
+                Hola mundo
                 <label for="input_texto">Texto:</label>
                 <textarea id="input_texto" name="input_texto"></textarea>
                 <button type="submit">Resumir</button>
@@ -45,7 +45,7 @@
 
         <div id="archivo" class="tab-content">
             <form method="POST" enctype="multipart/form-data" action="{% url 'resumir' %}">
-                {% csrf_token %}
+                Hola mundo
                 <label for="input_archivo">Subir Archivo:</label>
                 <input type="file" id="input_archivo" name="input_archivo">
                 <button type="submit">Resumir</button>
@@ -54,7 +54,7 @@
 
         <div id="url" class="tab-content">
             <form method="POST" enctype="multipart/form-data" action="{% url 'resumir' %}">
-                {% csrf_token %}
+                Hola mundo
                 <label for="input_url">URL:</label>
                 <input type="text" id="input_url" name="input_url">
                 <button type="submit">Resumir</button>

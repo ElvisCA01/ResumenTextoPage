@@ -1,0 +1,202 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap'); 
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    list-style: none;
+}
+
+body {
+    font-family: "Poppins", sans-serif;
+}
+
+/* Imagen de fondo solo en el header */
+.header {
+    background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('imagenes/fondo.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100px; /* Ajusta la altura para que solo abarque el menú */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+/* Estilos para el menú */
+.menu {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    color: white;
+}
+
+/* Estilos para el logo y navbar */
+.logo {
+    color: #fff;
+    font-size: 25px;
+    font-weight: 800;
+}
+
+.navbar ul li a {
+    font-size: 18px;
+    padding: 28px;
+    color: #fff;
+    display: block;
+    font-weight: 600;
+}
+
+#menu {
+    display: none;
+}
+
+.menu-icono {
+    width: 25px;
+}
+
+.menu label {
+    cursor: pointer;
+    display: none;
+}
+
+/* Contenedor para las pestañas y formularios */
+.header-content {
+    color: #323337;
+    text-align: center;
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    text-transform: uppercase;
+    background-color: #f1f1f1; /* Fondo del contenedor */
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos del título */
+.header-content h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+/* Estilos para las pestañas */
+.tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.tab-button {
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #e0e0e0;
+    border: none;
+    outline: none;
+    font-weight: bold;
+    color: #333;
+    margin-right: 10px;
+    transition: background-color 0.3s;
+    border-radius: 5px 5px 0 0; /* Bordes redondeados superiores */
+}
+
+.tab-button:hover, .tab-button.active {
+    background-color: #4CAF50;
+    color: white;
+}
+
+/* Ocultar contenido de las pestañas por defecto */
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Estilos para las etiquetas y formularios dentro de las pestañas */
+.header-content label {
+    font-size: 1rem;
+    color: #333;
+    margin-top: 15px;
+    display: block;
+    text-align: left;
+}
+
+.header-content textarea,
+.header-content input[type="file"],
+.header-content input[type="text"],
+.header-content select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+}
+
+.header-content button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 20px;
+    font-size: 1rem;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.header-content button:hover {
+    background-color: #45a049;
+}
+
+
+/* Estilos para el pie de paguina*/
+.footer {
+    background-color: #007bff; /* Color azul para el pie de página */
+    color: white; /* Color del texto */
+    padding: 15px 20px; /* Espaciado interno */
+    width: 100%; /* Abarca todo el ancho */
+}
+
+.footer-container {
+    display: flex; /* Usamos flexbox para la distribución */
+    justify-content: space-between; /* Espacio entre los elementos */
+    align-items: center; /* Centra verticalmente los elementos */
+}
+
+.footer-left {
+    text-align: left; /* Alinea el texto a la izquierda */
+}
+
+.footer-right {
+    text-align: right; /* Alinea el texto a la derecha */
+}
+
+
+html, body {
+    height: 100%; /* Asegura que el body ocupe todo el alto de la pantalla */
+}
+
+body {
+    display: flex; /* Usa flexbox para organizar el contenido */
+    flex-direction: column; /* Organiza en columna */
+}
+
+.container {
+    flex: 1; /* Permite que el contenedor principal ocupe el espacio disponible */
+}
+
+.footer {
+    background-color: #003b79; /* Color azul para el pie de página */
+    color: white; /* Color del texto */
+    padding: 15px 20px; /* Espaciado interno */
+    width: 100%; /* Abarca todo el ancho */
+}

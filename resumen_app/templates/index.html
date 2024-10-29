@@ -4,26 +4,99 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generador de Resúmenes</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Generador de Resúmenes Automáticos</h1>
-    <form method="POST" enctype="multipart/form-data" action="{% url 'resumir' %}">
-        {% csrf_token %}
-        <label for="input_texto">Texto:</label>
-        <textarea id="input_texto" name="input_texto"></textarea>
-    
-        <label for="input_archivo">Subir Archivo:</label>
-        <input type="file" id="input_archivo" name="input_archivo">
-    
-        <label for="input_url">URL:</label>
-        <input type="text" id="input_url" name="input_url">
-    
-        <select id="input_metodo" name="input_metodo">
-            <option value="nltk">Resumen con NLTK</option>
-        </select>
-    
-        <button type="submit">Resumir</button>
-    </form>
-    
+    <header class="header">
+        <div class="menu container">
+            <a href="#" class="logo">Inicio</a>
+            <input type="checkbox" id="menu" />
+            <label for="menu">
+                <img src="#" class="menu-icono" alt="">
+            </label>
+            <nav class="navbar">
+                <ul>
+                    <li><a href="#">Generador de Resumen</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Contenedor para las pestañas y formularios -->
+    <div class="header-content container">
+        <h1>Generador de Resúmenes Automáticos</h1>
+
+        <!-- Navegación de pestañas -->
+        <div class="tabs">
+            <button class="tab-button active" onclick="openTab(event, 'texto')">Texto</button>
+            <button class="tab-button" onclick="openTab(event, 'archivo')">Subir Archivo</button>
+            <button class="tab-button" onclick="openTab(event, 'url')">URL</button>
+        </div>
+
+        <!-- Contenido de cada pestaña -->
+        <div id="texto" class="tab-content active">
+            <form method="POST" enctype="multipart/form-data" action="{% url 'resumir' %}">
+                {% csrf_token %}
+                <label for="input_texto">Texto:</label>
+                <textarea id="input_texto" name="input_texto"></textarea>
+                <button type="submit">Resumir</button>
+            </form>
+        </div>
+
+        <div id="archivo" class="tab-content">
+            <form method="POST" enctype="multipart/form-data" action="{% url 'resumir' %}">
+                {% csrf_token %}
+                <label for="input_archivo">Subir Archivo:</label>
+                <input type="file" id="input_archivo" name="input_archivo">
+                <button type="submit">Resumir</button>
+            </form>
+        </div>
+
+        <div id="url" class="tab-content">
+            <form method="POST" enctype="multipart/form-data" action="{% url 'resumir' %}">
+                {% csrf_token %}
+                <label for="input_url">URL:</label>
+                <input type="text" id="input_url" name="input_url">
+                <button type="submit">Resumir</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function openTab(event, tabName) {
+            const tabContents = document.getElementsByClassName("tab-content");
+            const tabButtons = document.getElementsByClassName("tab-button");
+
+            // Oculta todas las pestañas
+            for (let content of tabContents) {
+                content.classList.remove("active");
+            }
+
+            // Quita la clase active de todos los botones
+            for (let button of tabButtons) {
+                button.classList.remove("active");
+            }
+
+            // Muestra la pestaña activa y marca el botón activo
+            document.getElementById(tabName).classList.add("active");
+            event.currentTarget.classList.add("active");
+        }
+    </script>
+
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-left">
+            <span>Equipo:</span><br>
+            <span>Grupo 08</span>
+        </div>
+        <div class="footer-right"> 
+        <span>Resume fácilmente...</span><br>
+        <span>Evita el estrés que te da el solo hecho de resumir...</span>
+        </div>
+    </div>
+</footer>
+
+
+
 </body>
 </html>

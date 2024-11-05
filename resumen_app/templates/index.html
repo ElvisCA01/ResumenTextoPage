@@ -4,15 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generador de Resúmenes</title>
-    <link rel="stylesheet" href="style.css">
+    
+    {% load static %}
+    
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+
+
 </head>
 <body>
     <header>
         <nav>
-            <a href="inicio.html" class="logo">Concentra</a>
+            <a href="{% url 'inicio' %}" class="logo">Concentra</a>
             <div class="menu">
-                <a href="inicio.html" class="menu-item">INICIO</a>
-                <a href="index.html" class="menu-item">GENERADOR DE RESUMEN</a>
+                <a href="{% url 'inicio' %}" class="menu-item">INICIO</a>
+                <a href="{% url 'index' %}" class="menu-item">GENERADOR DE RESUMEN</a>
             </div>
         </nav>
     </header>

@@ -9,7 +9,6 @@
     
     <link rel="stylesheet" href="{% static 'style.css' %}">
 
-
 </head>
 <body>
     <header>
@@ -36,24 +35,27 @@
         <!-- Contenido de cada pestaña -->
         <div id="texto" class="tab-content active">
             <form method="POST" enctype="multipart/form-data" action="{% url 'resumir' %}">
+                {% csrf_token %}
                 <label for="input_texto">Texto:</label>
-                <textarea id="input_texto" name="input_texto"></textarea>
+                <textarea id="input_texto" name="input_texto" required></textarea>
                 <button type="submit">Resumir</button>
             </form>
         </div>
 
         <div id="archivo" class="tab-content">
             <form method="POST" enctype="multipart/form-data" action="{% url 'resumir' %}">
+                {% csrf_token %}
                 <label for="input_archivo">Subir Archivo:</label>
-                <input type="file" id="input_archivo" name="input_archivo">
+                <input type="file" id="input_archivo" name="input_archivo" required>
                 <button type="submit">Resumir</button>
             </form>
         </div>
 
         <div id="url" class="tab-content">
             <form method="POST" enctype="multipart/form-data" action="{% url 'resumir' %}">
+                {% csrf_token %}
                 <label for="input_url">URL:</label>
-                <input type="text" id="input_url" name="input_url">
+                <input type="text" id="input_url" name="input_url" required>
                 <button type="submit">Resumir</button>
             </form>
         </div>

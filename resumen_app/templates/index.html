@@ -7,19 +7,14 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header class="header">
-        <div class="menu container">
-            <a href="inicio.html" class="logo">Inicio</a>
-            <input type="checkbox" id="menu" />
-            <label for="menu">
-                <img src="#" class="menu-icono" alt="">
-            </label>
-            <nav class="navbar">
-                <ul>
-                    <li><a href="#">Generador de Resumen</a></li>
-                </ul>
-            </nav>
-        </div>
+    <header>
+        <nav>
+            <a href="inicio.html" class="logo">Concentra</a>
+            <div class="menu">
+                <a href="inicio.html" class="menu-item">INICIO</a>
+                <a href="index.html" class="menu-item">GENERADOR DE RESUMEN</a>
+            </div>
+        </nav>
     </header>
 
     <!-- Contenedor para las pestañas y formularios -->
@@ -36,7 +31,6 @@
         <!-- Contenido de cada pestaña -->
         <div id="texto" class="tab-content active">
             <form method="POST" enctype="multipart/form-data" action="{% url 'resumir' %}">
-                Hola mundo
                 <label for="input_texto">Texto:</label>
                 <textarea id="input_texto" name="input_texto"></textarea>
                 <button type="submit">Resumir</button>
@@ -45,7 +39,6 @@
 
         <div id="archivo" class="tab-content">
             <form method="POST" enctype="multipart/form-data" action="{% url 'resumir' %}">
-                Hola mundo
                 <label for="input_archivo">Subir Archivo:</label>
                 <input type="file" id="input_archivo" name="input_archivo">
                 <button type="submit">Resumir</button>
@@ -54,13 +47,19 @@
 
         <div id="url" class="tab-content">
             <form method="POST" enctype="multipart/form-data" action="{% url 'resumir' %}">
-                Hola mundo
                 <label for="input_url">URL:</label>
                 <input type="text" id="input_url" name="input_url">
                 <button type="submit">Resumir</button>
             </form>
         </div>
     </div>
+
+    <footer>
+        <div class="footer-content">
+            <p><strong>EQUIPO:</strong> GRUPO 08</p>
+            <p><strong>Resumen fácilmente...</strong> Evítate el estrés que te da el solo hecho de resumir...</p>
+        </div>
+    </footer>
 
     <script>
         function openTab(event, tabName) {
@@ -82,21 +81,5 @@
             event.currentTarget.classList.add("active");
         }
     </script>
-
-<footer class="footer">
-    <div class="footer-container">
-        <div class="footer-left">
-            <span>Equipo:</span><br>
-            <span>Grupo 08</span>
-        </div>
-        <div class="footer-right"> 
-        <span>Resume fácilmente...</span><br>
-        <span>Evita el estrés que te da el solo hecho de resumir...</span>
-        </div>
-    </div>
-</footer>
-
-
-
 </body>
 </html>

@@ -68,6 +68,11 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'resumenTexto.urls'
 
+# Ruta para almacenar archivos temporales
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

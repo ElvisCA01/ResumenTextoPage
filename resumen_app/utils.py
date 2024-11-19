@@ -10,7 +10,12 @@ import fitz  # PyMuPDF
 import fitz  # PyMuPDF
 import torch
 from transformers import pipeline
-
+import docx
+import odf.text
+import odf.teletype
+from odf.opendocument import load
+import os
+import chardet
 
 # Descargar recursos de NLTK si es necesario
 try:
@@ -130,6 +135,115 @@ def resumen_nltk(texto, tamano):
 
     # Ajustamos el tamaño del resumen
     return ajustar_resumen_por_tamano(resumen, tamano)
+
+
+def detectar_codificacion(contenido):
+    """
+    Detecta la codificación del archivo de texto.
+    """
+    resultado = chardet.detect(contenido)
+    return resultado['encoding']
+
+def obtener_texto_de_archivo(archivo):
+    """
+    Extrae texto de diferentes tipos de archivos.
+    Soporta: .txt, .pdf, .doc, .docx, .odt, .rtf
+    """
+    try:
+        nombre_archivo = archivo.name.lower()
+        extension = os.path.splitext(nombre_archivo)[1]
+        
+        # Asegurarse de que estamos al inicio del archivo
+        archivo.seek(0)
+        
+        if extension == '.pdf':
+            return obtener_texto_de_pdf(archivo)
+            
+        elif extension == '.docx':
+            return obtener_texto_de_docx(archivo)
+            
+        elif extension == '.odt':
+            return obtener_texto_de_odt(archivo)
+            
+        elif extension == '.txt':
+            return obtener_texto_de_txt(archivo)
+            
+        elif extension == '.rtf':
+            return obtener_texto_de_rtf(archivo)
+            
+        else:
+            # Intentar leer como texto plano si no coincide con ningún formato conocido
+            try:
+                return obtener_texto_de_txt(archivo)
+            except:
+                raise Exception(f"Formato de archivo no soportado: {extension}")
+                
+    except Exception as e:
+        return f"Error al procesar el archivo: {str(e)}"
+
+
+def obtener_texto_de_docx(archivo):
+    """
+    Extrae texto de un archivo DOCX.
+    """
+    doc = docx.Document(archivo)
+    texto_completo = []
+    
+    for parrafo in doc.paragraphs:
+        texto_completo.append(parrafo.text)
+        
+    # Extraer texto de las tablas
+    for tabla in doc.tables:
+        for fila in tabla.rows:
+            for celda in fila.cells:
+                texto_completo.append(celda.text)
+    
+    return '\n'.join(texto_completo)
+
+def obtener_texto_de_odt(archivo):
+    """
+    Extrae texto de un archivo ODT.
+    """
+    textdoc = load(archivo)
+    allparas = textdoc.getElementsByType(odf.text.P)
+    return '\n'.join([odf.teletype.extractText(para) for para in allparas])
+
+def obtener_texto_de_txt(archivo):
+    """
+    Extrae texto de un archivo TXT.
+    """
+    contenido = archivo.read()
+    if isinstance(contenido, str):
+        return contenido.strip()
+    
+    # Si el contenido es bytes, detectar la codificación
+    codificacion = detectar_codificacion(contenido)
+    return contenido.decode(codificacion or 'utf-8', errors='replace').strip()
+
+def obtener_texto_de_rtf(archivo):
+    """
+    Extrae texto de un archivo RTF.
+    """
+    try:
+        import striprtf.striprtf as striprtf
+        contenido = archivo.read()
+        if isinstance(contenido, bytes):
+            contenido = contenido.decode('utf-8', errors='replace')
+        return striprtf.rtf_to_text(contenido).strip()
+    except ImportError:
+        return "Error: Se requiere la biblioteca 'striprtf' para procesar archivos RTF"
+
+# Actualizar la función de validación de archivos
+def es_archivo_valido(nombre_archivo):
+    """
+    Verifica si el archivo tiene una extensión válida.
+    """
+    extensiones_permitidas = {
+        '.txt', '.pdf', '.doc', '.docx', 
+        '.odt', '.rtf'
+    }
+    extension = os.path.splitext(nombre_archivo.lower())[1]
+    return extension in extensiones_permitidas
 
 def obtener_texto_de_pdf(archivo):
     """

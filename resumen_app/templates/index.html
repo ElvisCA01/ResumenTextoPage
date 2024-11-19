@@ -55,10 +55,15 @@
         <div id="archivo" class="tab-content">
             <form method="POST" enctype="multipart/form-data" action="{% url 'resumir' %}">
                 {% csrf_token %}
-                <label for="input_archivo">Subir Archivo:</label>
-                <input type="file" id="input_archivo" name="input_archivo" required>
-
-                <button type="submit">Resumir</button>
+                <div class="form-group">
+                    <label for="input_archivo">Subir Archivo:</label>
+                    <input type="file" id="input_archivo" name="input_archivo" required
+                           accept=".txt,.pdf,.doc,.docx,.odt,.rtf">
+                    <small class="form-text">
+                        Formatos soportados: TXT, PDF, DOC, DOCX, ODT, RTF
+                    </small>
+                </div>
+                <button type="submit" class="submit-btn">Generar Resumen</button>
             </form>
         </div>
 
@@ -67,7 +72,6 @@
                 {% csrf_token %}
                 <label for="input_url">URL:</label>
                 <input type="text" id="input_url" name="input_url" required>
-        
                 <button type="submit">Resumir</button>
             </form>
         </div>

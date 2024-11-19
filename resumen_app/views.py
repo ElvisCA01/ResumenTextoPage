@@ -1,7 +1,7 @@
 import os
 from django.conf import settings
 from django.shortcuts import render
-from .utils import procesar_entrada, resumen_nltk, generate_summary, obtener_texto_de_pdf, ajustar_resumen_por_tamano, obtener_texto_de_url, limpiar_texto
+from .utils import procesar_entrada, resumen_nltk, generate_summary, obtener_texto_de_pdf, ajustar_resumen_por_tamano, obtener_texto_de_url, limpiar_texto, es_archivo_valido, obtener_texto_de_archivo
 def ensure_media_directory():
     """
     Asegura que el directorio MEDIA_ROOT exista.
@@ -37,9 +37,13 @@ def resumir(request):
         try:
             contenido = None
             
-            # Determinar la fuente del contenido
+            # Procesar según la fuente del contenido
             if input_archivo:
-                contenido = obtener_texto_de_pdf(input_archivo)
+                if not es_archivo_valido(input_archivo.name):
+                    return render(request, 'resumen.html', {
+                        'error': 'Tipo de archivo no soportado. Por favor, use: .txt, .pdf, .doc, .docx, .odt, o .rtf'
+                    })
+                contenido = obtener_texto_de_archivo(input_archivo)
             elif input_texto:
                 contenido = input_texto
             elif input_url:

@@ -33,11 +33,21 @@
         </div>
 
         <!-- Contenido de cada pestaña -->
+        <!-- Dentro de cada pestaña, agregamos el campo de selección para el tamaño del resumen -->
         <div id="texto" class="tab-content active">
             <form method="POST" enctype="multipart/form-data" action="{% url 'resumir' %}">
                 {% csrf_token %}
                 <label for="input_texto">Texto:</label>
                 <textarea id="input_texto" name="input_texto" required></textarea>
+
+                <!-- Selección del tamaño del resumen -->
+                <label for="input_tamano">Tamaño del Resumen:</label>
+                <select id="input_tamano" name="input_tamano">
+                    <option value="corto">Corto</option>
+                    <option value="medio" selected>Medio</option>
+                    <option value="largo">Largo</option>
+                </select>
+
                 <button type="submit">Resumir</button>
             </form>
         </div>
@@ -47,6 +57,7 @@
                 {% csrf_token %}
                 <label for="input_archivo">Subir Archivo:</label>
                 <input type="file" id="input_archivo" name="input_archivo" required>
+
                 <button type="submit">Resumir</button>
             </form>
         </div>
@@ -56,9 +67,12 @@
                 {% csrf_token %}
                 <label for="input_url">URL:</label>
                 <input type="text" id="input_url" name="input_url" required>
+        
                 <button type="submit">Resumir</button>
             </form>
         </div>
+        
+
     </div>
 
     <footer>

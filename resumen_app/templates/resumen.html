@@ -1,24 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resumen Automático</title>
-
+    <title>Resumen Generado</title>
     {% load static %}
-    
     <link rel="stylesheet" href="{% static 'estilo.css' %}">
+    <style>
+        .resumen-container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 20px;
+        }
+        .resumen-container p {
+            text-align: justify;
+        }
+    </style>
 </head>
 <body>
-    <h1>Generador de Resúmenes Automáticos</h1>
-    
-    <!-- Formulario -->
-    {% include 'index.html' %}
+    <header>
+        <nav>
+            <a href="{% url 'inicio' %}" class="logo">Concentra</a>
+            <div class="menu">
+                <a href="{% url 'inicio' %}" class="menu-item">INICIO</a>
+                <a href="{% url 'index' %}" class="menu-item">GENERADOR DE RESUMEN</a>
+            </div>
+        </nav>
+    </header>
 
-    <!-- Resultado del Resumen -->
-    {% if resumen %}
-        <h2>Resumen Generado:</h2>
-        <p>{{ resumen }}</p>
-    {% endif %}
+    <main>
+        <div class="resumen-container">
+            <h2>Resumen Generado</h2>
+            <p>{{ resumen }}</p>
+
+            <div class="actions">
+                <a href="{% url 'index' %}">Generar Otro Resumen</a>
+            </div>
+        </div>
+    </main>
 </body>
 </html>

@@ -1,0 +1,10 @@
+nltk
+requests
+beautifulsoup4
+PyMuPDF
+torch
+transformers
+python-docx
+odfpy
+chardet
+striprtf

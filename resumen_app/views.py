@@ -25,45 +25,42 @@ def inicio(request):
 
 def resumir(request):
     """
-    Procesa una solicitud de resumen según el tipo de entrada y el tamaño deseado.
+    Procesa una solicitud de resumen según el tipo de entrada y genera el resumen.
     """
     if request.method == 'POST':
         input_texto = request.POST.get('input_texto', '')
         input_archivo = request.FILES.get('input_archivo')
         input_url = request.POST.get('input_url', '')
-        input_metodo = request.POST.get('input_metodo', 'nltk')
         input_tamano = request.POST.get('input_tamano', 'medio')
 
         try:
             contenido = None
             
-            # Procesar según la fuente del contenido
-            if input_archivo:
+            # Procesar texto escrito directamente
+            if input_texto:
+                contenido = limpiar_texto(input_texto)
+                resumen = resumen_nltk(contenido, input_tamano)
+            
+            # Procesar archivos cargados
+            elif input_archivo:
                 if not es_archivo_valido(input_archivo.name):
                     return render(request, 'resumen.html', {
                         'error': 'Tipo de archivo no soportado. Por favor, use: .txt, .pdf, .doc, .docx, .odt, o .rtf'
                     })
-                contenido = obtener_texto_de_archivo(input_archivo)
-            elif input_texto:
-                contenido = input_texto
+                contenido = limpiar_texto(obtener_texto_de_archivo(input_archivo))
+                resumen = generate_summary(contenido)
+            
+            # Procesar URL
             elif input_url:
-                contenido = obtener_texto_de_url(input_url)
+                contenido = limpiar_texto(obtener_texto_de_url(input_url))
+                resumen = generate_summary(contenido)
 
-            if not contenido:
+            else:
                 return render(request, 'resumen.html', {
                     'error': 'No se proporcionó contenido válido para resumir.'
                 })
 
-            # Limpiar el texto
-            contenido = limpiar_texto(contenido)
-
-            # Generar el resumen según el método seleccionado
-            if input_metodo == 'transformers':
-                resumen = generate_summary(contenido)
-            else:  # nltk
-                resumen = resumen_nltk(contenido, input_tamano)
-
-            # Ajustar el tamaño del resumen
+            # Ajustar el tamaño del resumen (opcional)
             resumen_final = ajustar_resumen_por_tamano(resumen, input_tamano)
 
             return render(request, 'resumen.html', {
@@ -77,6 +74,7 @@ def resumir(request):
             })
 
     return render(request, 'resumen.html')
+
 
 
 def manejar_archivo(input_archivo):

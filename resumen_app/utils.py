@@ -7,7 +7,6 @@ import requests
 from bs4 import BeautifulSoup
 import re
 import fitz  # PyMuPDF
-import fitz  # PyMuPDF
 import torch
 from transformers import pipeline
 import docx
@@ -16,6 +15,10 @@ import odf.teletype
 from odf.opendocument import load
 import os
 import chardet
+
+nltk.download('punkt_tab')
+nltk.download('punkt')
+nltk.download('stopwords')
 
 # Descargar recursos de NLTK si es necesario
 try:
@@ -46,8 +49,8 @@ def generate_summary(text, max_length=100, min_length=50):
             return "Error: El modelo no se pudo cargar correctamente."
 
         # Dividir el texto en chunks si es muy largo
-        max_chunk_length = 1024
-        chunks = [text[i:i + max_chunk_length] for i in range(0, len(text), max_chunk_length)]
+  
+        chunks = dividir_en_chunks(text)
         
         summaries = []
         for chunk in chunks:
@@ -62,6 +65,22 @@ def generate_summary(text, max_length=100, min_length=50):
     except Exception as e:
         return f"Error al generar el resumen: {str(e)}"
 
+# Funcion mejorada para la division de chunks
+def dividir_en_chunks(texto, max_chunk_length=1024):
+    """
+    Divide el texto en chunks sin cortar oraciones.
+    """
+    chunks = []
+    actual = ""
+    for oracion in sent_tokenize(texto):
+        if len(actual) + len(oracion) <= max_chunk_length:
+            actual += " " + oracion
+        else:
+            chunks.append(actual.strip())
+            actual = oracion
+    if actual:
+        chunks.append(actual.strip())
+    return chunks
 
 def ajustar_resumen_por_tamano(resumen, tamano):
     """
@@ -88,27 +107,12 @@ def limpiar_texto(texto):
     """
     if not texto:
         return ""
-    texto = re.sub(r'\[\d+\]', '', texto)
-    texto = re.sub(r'\s+', ' ', texto)
+    texto = re.sub(r'\[\d+\]', '', texto)  # Eliminar referencias
+    texto = re.sub(r'[\r\n]+', ' ', texto)  # Reemplazar saltos de línea por espacios
+    texto = re.sub(r'http\S+', '', texto)   # Quitar URLs
+    texto = re.sub(r'\s+', ' ', texto) #Eliminar espacios multiples
     return texto.strip()
 
-def ajustar_resumen_por_tamano(resumen, tamano):
-    """
-    Ajusta el tamaño del resumen según la opción seleccionada.
-    """
-    if not resumen:
-        return ""
-        
-    oraciones = sent_tokenize(resumen)
-    
-    if tamano == 'corto':
-        num_oraciones = min(2, len(oraciones))
-    elif tamano == 'medio':
-        num_oraciones = min(5, len(oraciones))
-    else:  # largo
-        num_oraciones = min(10, len(oraciones))
-    
-    return ' '.join(oraciones[:num_oraciones])
 
 def resumen_nltk(texto, tamano):
     """
@@ -274,6 +278,8 @@ def obtener_texto_de_url(url, max_length=2000):
     """
     response = requests.get(url)
     response.raise_for_status()
+    # Intentar obtener la codificación desde el encabezado de la respuesta
+    response.encoding = 'utf-8'
     soup = BeautifulSoup(response.text, 'html.parser')
     texto = ' '.join([para.get_text() for para in soup.find_all('p')])
     

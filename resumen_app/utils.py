@@ -40,7 +40,7 @@ except Exception as e:
     print(f"Error al cargar el modelo: {str(e)}")
     summarizer = None
 
-def generate_summary(text, max_length=100, min_length=50):
+def generate_summary(text, max_length=100, min_length=30):
     """
     Genera un resumen utilizando el pipeline de transformers.
     """

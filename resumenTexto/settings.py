@@ -26,7 +26,10 @@ SECRET_KEY = 'django-insecure-4ah5srjr!nz3_)ylj2mfq&na_b1hrkr6w!uccz30(aw%blc2z2
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False;
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'resumentextopage-j507.onrender.com',
+    'localhost',
+]
 
 
 # Application definition
@@ -50,9 +53,8 @@ INSTALLED_APPS += EXTERNAL_APPS
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 STATIC_URL = '/resumen_app/static/'
 
-if not DEBUG:
-    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'resumen_app/static')

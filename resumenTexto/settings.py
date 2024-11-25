@@ -50,11 +50,10 @@ INSTALLED_APPS += EXTERNAL_APPS
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 STATIC_URL = '/resumen_app/static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+if not DEBUG:
+ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'resumen_app/static')
-]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -64,6 +63,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'resumenTexto.urls'

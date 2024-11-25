@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-4ah5srjr!nz3_)ylj2mfq&na_b1hrkr6w!uccz30(aw%blc2z2'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False;
 
 ALLOWED_HOSTS = []
 
@@ -51,9 +51,12 @@ INSTALLED_APPS += EXTERNAL_APPS
 STATIC_URL = '/resumen_app/static/'
 
 if not DEBUG:
- STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
- STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'resumen_app/static')
+]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

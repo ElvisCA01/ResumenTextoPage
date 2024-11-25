@@ -8,7 +8,6 @@ from bs4 import BeautifulSoup
 import re
 import fitz  # PyMuPDF
 import torch
-from transformers import pipeline
 import docx
 import odf.text
 import odf.teletype
@@ -30,42 +29,14 @@ try:
 except LookupError:
     nltk.download('stopwords')
 
-# Verificar si hay GPU disponible
-device = 0 if torch.cuda.is_available() else -1
 
-# Inicializar el pipeline de summarization
-try:
-    summarizer = pipeline("summarization", model="facebook/bart-large-cnn", device=device)
-except Exception as e:
-    print(f"Error al cargar el modelo: {str(e)}")
-    summarizer = None
 
-def generate_summary(text, max_length=100, min_length=30):
+def generate_summary(text, max_length=30, min_length=10):
     """
-    Genera un resumen utilizando el pipeline de transformers.
+    Genera un resumen utilizando NLTK.
     """
-    try:
-        if summarizer is None:
-            return "Error: El modelo no se pudo cargar correctamente."
+    return resumen_nltk(text, 'medio')
 
-        # Dividir el texto en chunks si es muy largo
-  
-        chunks = dividir_en_chunks(text)
-        
-        summaries = []
-        for chunk in chunks:
-            if len(chunk.strip()) > 100:  # Solo procesar chunks con suficiente contenido
-                summary = summarizer(chunk, 
-                                   max_length=max_length, 
-                                   min_length=min_length, 
-                                   do_sample=False)
-                summaries.append(summary[0]['summary_text'])
-        
-        return ' '.join(summaries)
-    except Exception as e:
-        return f"Error al generar el resumen: {str(e)}"
-
-# Funcion mejorada para la division de chunks
 def dividir_en_chunks(texto, max_chunk_length=1024):
     """
     Divide el texto en chunks sin cortar oraciones.

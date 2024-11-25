@@ -25,17 +25,26 @@ def inicio(request):
 
 def resumir(request):
     """
-    Procesa una solicitud de resumen según el tipo de entrada y genera el resumen.
+    Procesa una solicitud de resumen con manejo de errores detallado.
     """
     if request.method == 'POST':
-        input_texto = request.POST.get('input_texto', '')
-        input_archivo = request.FILES.get('input_archivo')
-        input_url = request.POST.get('input_url', '')
-        input_tamano = request.POST.get('input_tamano', 'medio')
 
         try:
+            # Obtener todos los posibles inputs
+            input_texto = request.POST.get('input_texto', '').strip()
+            input_archivo = request.FILES.get('input_archivo')
+            input_url = request.POST.get('input_url', '').strip()
+            input_tamano = request.POST.get('input_tamano', 'medio')
+
+            # Validar que al menos un input no esté vacío
+            if not any([input_texto, input_archivo, input_url]):
+                return render(request, 'resumen.html', {
+                    'error': 'Debe proporcionar texto, un archivo o una URL para generar el resumen.'
+                })
+
             contenido = None
-            
+            resumen = None
+
             # Procesar texto escrito directamente
             if input_texto:
                 contenido = limpiar_texto(input_texto)
@@ -47,32 +56,35 @@ def resumir(request):
                     return render(request, 'resumen.html', {
                         'error': 'Tipo de archivo no soportado. Por favor, use: .txt, .pdf, .doc, .docx, .odt, o .rtf'
                     })
+                
                 contenido = limpiar_texto(obtener_texto_de_archivo(input_archivo))
-                resumen = generate_summary(contenido)
+                resumen = resumen_nltk(contenido, input_tamano)
             
             # Procesar URL
             elif input_url:
-                contenido = limpiar_texto(obtener_texto_de_url(input_url))
-                resumen = generate_summary(contenido)
+                try:
+                    contenido = limpiar_texto(obtener_texto_de_url(input_url))
+                    resumen = resumen_nltk(contenido, input_tamano)
+                except Exception as url_error:
+                    return render(request, 'resumen.html', {
+                        'error': f'Error al obtener contenido de la URL: {str(url_error)}'
+                    })
 
-            else:
-                return render(request, 'resumen.html', {
-                    'error': 'No se proporcionó contenido válido para resumir.'
-                })
-
-            # Ajustar el tamaño del resumen (opcional)
+            # Ajustar el tamaño del resumen
             resumen_final = ajustar_resumen_por_tamano(resumen, input_tamano)
 
             return render(request, 'resumen.html', {
-                'resumen': resumen_final,
-                'texto_original': contenido[:1000] + '...' if len(contenido) > 1000 else contenido
+                'resumen': resumen_final or 'No se pudo generar un resumen.',
+                'texto_original': (contenido[:1000] + '...') if contenido and len(contenido) > 1000 else contenido
             })
 
         except Exception as e:
+            
             return render(request, 'resumen.html', {
-                'error': f'Error durante el procesamiento: {str(e)}'
+                'error': f'Error inesperado durante el procesamiento: {str(e)}'
             })
 
+    # Si no es un POST, renderizar la página de resumen vacía
     return render(request, 'resumen.html')
 
 

@@ -27,8 +27,7 @@ SECRET_KEY = 'django-insecure-4ah5srjr!nz3_)ylj2mfq&na_b1hrkr6w!uccz30(aw%blc2z2
 DEBUG = False;
 
 ALLOWED_HOSTS = [
-    'resumentextopage-j507.onrender.com',
-    'localhost',
+    '*',
 ]
 
 

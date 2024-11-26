@@ -7,20 +7,26 @@
     
     {% load static %}
     
-    <link rel="stylesheet" href="{% static 'estilo.css' %}">
+    <link rel="stylesheet" href="{% static 'estilo1.css' %}">
 
-
+    <link rel="shortcut icon" type="static/favicon.ico" href="{% static 'favicon.ico' %}">
 </head>
 <body>
     <header>
         <nav>
-            <a href="#" class="logo">Concentra</a>
+            <!-- Logo y 'INICIO' alineados a la izquierda -->
+            <a href="{% url 'inicio' %}" class="logo">
+                <img src="{% static 'images/image4.png' %}" alt="Concentra logo">
+            </a>
+            <a href="{% url 'inicio' %}" class="menu-item">INICIO</a>
+    
+            <!-- Menú con 'GENERADOR DE RESUMEN' alineado a la derecha -->
             <div class="menu">
-                <a href="{% url 'inicio' %}" class="menu-item">INICIO</a>
                 <a href="{% url 'index' %}" class="menu-item">GENERADOR DE RESUMEN</a>
             </div>
         </nav>
     </header>
+    
 
     <main>
         <section class="hero">
@@ -34,8 +40,17 @@
 
         <footer>
             <div class="footer-content">
-                <p><strong>EQUIPO:</strong> GRUPO 08</p>
-                <p><strong>Resumen fácilmente...</strong> Evítate el estrés que te da el solo hecho de resumir...</p>
+                <!-- Bloque izquierdo: Equipo -->
+                <div class="footer-left">
+                    <p><strong>EQUIPO:</strong></p>
+                    <p>GRUPO 08</p>
+                </div>
+        
+                <!-- Bloque derecho: Mensaje de resumen -->
+                <div class="footer-right">
+                    <p><strong>Resumen fácilmente...</strong></p>
+                    <p>Evítate el estrés que te da el solo hecho de resumir...</p>
+                </div>
             </div>
         </footer>
     </main>

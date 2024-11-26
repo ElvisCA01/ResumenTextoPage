@@ -78,8 +78,7 @@ def resumir(request):
                 'texto_original': (contenido[:1000] + '...') if contenido and len(contenido) > 1000 else contenido
             })
 
-        except Exception as e:
-            
+        except Exception as e:            
             return render(request, 'resumen.html', {
                 'error': f'Error inesperado durante el procesamiento: {str(e)}'
             })

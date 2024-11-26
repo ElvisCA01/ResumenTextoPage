@@ -5,7 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resumen Generado</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'estilo.css' %}">
+    <link rel="stylesheet" href="{% static 'estilo2.css' %}">
+
+    <link rel="shortcut icon" type="static/favicon.ico" href="{% static 'favicon.ico' %}">
+
+
+
     <style>
         .resumen-container {
             max-width: 800px;
@@ -21,23 +26,32 @@
 <body>
     <header>
         <nav>
-            <a href="{% url 'inicio' %}" class="logo">Concentra</a>
+            <a href="{% url 'inicio' %}" class="logo">
+                <img src="{% static 'images/image4.png' %}" alt="Concentra logo">
+            </a>
+            <a href="{% url 'inicio' %}" class="menu-item">INICIO</a>
+    
             <div class="menu">
-                <a href="{% url 'inicio' %}" class="menu-item">INICIO</a>
                 <a href="{% url 'index' %}" class="menu-item">GENERADOR DE RESUMEN</a>
             </div>
         </nav>
     </header>
 
     <main>
-        <div class="resumen-container">
+        <div class="header-content container">
             <h2>Resumen Generado</h2>
-            <p>{{ resumen }}</p>
-
-            <div class="actions">
-                <a href="{% url 'index' %}">Generar Otro Resumen</a>
+            
+            <!-- Nuevo contenedor con fondo blanco -->
+            <div class="resumen-content">
+                <p>{{ resumen }}</p>
             </div>
+    
+            <div class="actions">
+                <a href="{% url 'index' %}" class="generate-button">Generar Otro Resumen</a>
+            </div>
+            
         </div>
     </main>
+    
 </body>
 </html>

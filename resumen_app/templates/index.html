@@ -4,54 +4,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generador de Resúmenes</title>
-    
+
     {% load static %}
-    
-    <link rel="stylesheet" href="{% static 'style.css' %}">
+
+    <link rel="stylesheet" href="{% static 'estilo2.css' %}">
+
+    <link rel="shortcut icon" type="static/favicon.ico" href="{% static 'favicon.ico' %}">
 
 </head>
 <body>
     <header>
         <nav>
-            <a href="{% url 'inicio' %}" class="logo">Concentra</a>
+            <!-- Logo y 'INICIO' alineados a la izquierda -->
+            <a href="{% url 'inicio' %}" class="logo">
+                <img src="{% static 'images/image4.png' %}" alt="Concentra logo">
+            </a>
+            <a href="{% url 'inicio' %}" class="menu-item">INICIO</a>
+    
+            <!-- Menú con 'GENERADOR DE RESUMEN' alineado a la derecha -->
             <div class="menu">
-                <a href="{% url 'inicio' %}" class="menu-item">INICIO</a>
                 <a href="{% url 'index' %}" class="menu-item">GENERADOR DE RESUMEN</a>
             </div>
         </nav>
     </header>
 
-    <!-- Contenedor para las pestañas y formularios -->
     <div class="header-content container">
         <h1>Generador de Resúmenes Automáticos</h1>
-
-        <!-- Navegación de pestañas -->
+    
         <div class="tabs">
             <button class="tab-button active" onclick="openTab(event, 'texto')">Texto</button>
             <button class="tab-button" onclick="openTab(event, 'archivo')">Subir Archivo</button>
             <button class="tab-button" onclick="openTab(event, 'url')">URL</button>
         </div>
-
-        <!-- Contenido de cada pestaña -->
-        <!-- Dentro de cada pestaña, agregamos el campo de selección para el tamaño del resumen -->
+    
         <div id="texto" class="tab-content active">
             <form method="POST" enctype="multipart/form-data" action="{% url 'resumir' %}">
                 {% csrf_token %}
                 <label for="input_texto">Texto:</label>
                 <textarea id="input_texto" name="input_texto" required></textarea>
-
-                <!-- Selección del tamaño del resumen -->
+    
                 <label for="input_tamano">Tamaño del Resumen:</label>
                 <select id="input_tamano" name="input_tamano">
                     <option value="corto">Corto</option>
                     <option value="medio" selected>Medio</option>
                     <option value="largo">Largo</option>
                 </select>
-
-                <button type="submit">Resumir</button>
+    
+                <button type="submit" class="submit-btn">Resumir</button>
             </form>
         </div>
-
+    
         <div id="archivo" class="tab-content">
             <form method="POST" enctype="multipart/form-data" action="{% url 'resumir' %}">
                 {% csrf_token %}
@@ -66,42 +68,50 @@
                 <button type="submit" class="submit-btn">Generar Resumen</button>
             </form>
         </div>
-
+    
         <div id="url" class="tab-content">
             <form method="POST" enctype="multipart/form-data" action="{% url 'resumir' %}">
                 {% csrf_token %}
                 <label for="input_url">URL:</label>
                 <input type="text" id="input_url" name="input_url" required>
-                <button type="submit">Resumir</button>
+                <button type="submit" class="submit-btn">Resumir</button>
             </form>
         </div>
-        
-
     </div>
+    
 
     <footer>
         <div class="footer-content">
-            <p><strong>EQUIPO:</strong> GRUPO 08</p>
-            <p><strong>Resumen fácilmente...</strong> Evítate el estrés que te da el solo hecho de resumir...</p>
+            <!-- Bloque izquierdo: Equipo -->
+            <div class="footer-left">
+                <p><strong>EQUIPO:</strong></p>
+                <p>GRUPO 08</p>
+            </div>
+    
+            <!-- Bloque derecho: Mensaje de resumen -->
+            <div class="footer-right">
+                <p><strong>Resumen fácilmente...</strong></p>
+                <p>Evítate el estrés que te da el solo hecho de resumir...</p>
+            </div>
         </div>
     </footer>
+    
+    
+    
 
     <script>
         function openTab(event, tabName) {
             const tabContents = document.getElementsByClassName("tab-content");
             const tabButtons = document.getElementsByClassName("tab-button");
 
-            // Oculta todas las pestañas
             for (let content of tabContents) {
                 content.classList.remove("active");
             }
 
-            // Quita la clase active de todos los botones
             for (let button of tabButtons) {
                 button.classList.remove("active");
             }
 
-            // Muestra la pestaña activa y marca el botón activo
             document.getElementById(tabName).classList.add("active");
             event.currentTarget.classList.add("active");
         }

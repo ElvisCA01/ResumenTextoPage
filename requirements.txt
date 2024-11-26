@@ -7,7 +7,6 @@ python-docx==1.1.2
 requests==2.31.0
 striprtf==0.0.27
 torch==2.0.1
-transformers==4.46.3
 django==4.0.2
 whitenoise==6.8.2
 gunicorn==23.0.0

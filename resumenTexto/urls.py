@@ -20,7 +20,9 @@ from resumen_app import views
 
 
 urlpatterns = [
-    path('', views.index, name='index'),         
+    path('', views.inicio, name='inicio'),
     path('inicio/', views.inicio, name='inicio'),
+    path('resumen/', views.index, name='index'),
     path('resumir/', views.resumir, name='resumir'),
 ]
+
